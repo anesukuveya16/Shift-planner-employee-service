@@ -1,2 +1,7 @@
-package com.project.anesu.shiftplanner.employeeservice.entity.shift;public class ShiftRequestStatus {
+package com.project.anesu.shiftplanner.employeeservice.entity.shift;
+
+public enum ShiftRequestStatus {
+  APPROVED,
+  REJECTED,
+  PENDING
 }
