@@ -1,5 +1,6 @@
 package com.project.anesu.shiftplanner.employeeservice.entity.shift;
 
+import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,10 @@ public class ShiftRequest {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  private Long employeeId;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "employee_id", nullable = false)
+  private Employee employee;
+
   private LocalDateTime shiftDate;
 
   @Enumerated(EnumType.STRING)
