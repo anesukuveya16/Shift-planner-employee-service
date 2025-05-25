@@ -1,5 +1,6 @@
 package com.project.anesu.shiftplanner.employeeservice.entity.employee;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.project.anesu.shiftplanner.employeeservice.entity.schedule.Schedule;
 import com.project.anesu.shiftplanner.employeeservice.entity.shift.ShiftRequest;
 import com.project.anesu.shiftplanner.employeeservice.entity.vacation.VacationRequest;
@@ -47,6 +48,7 @@ public class Employee {
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,
       orphanRemoval = true)
+  @JsonManagedReference
   private List<VacationRequest> vacationRequests;
 
   @OneToMany(
@@ -54,5 +56,6 @@ public class Employee {
       fetch = FetchType.LAZY,
       cascade = CascadeType.ALL,
       orphanRemoval = true)
+  @JsonManagedReference
   private List<ShiftRequest> shiftRequests;
 }

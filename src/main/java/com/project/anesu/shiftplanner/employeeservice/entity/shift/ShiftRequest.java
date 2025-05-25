@@ -1,5 +1,6 @@
 package com.project.anesu.shiftplanner.employeeservice.entity.shift;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ public class ShiftRequest {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @JsonBackReference
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "employee_id", nullable = false)
   private Employee employee;

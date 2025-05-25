@@ -1,5 +1,6 @@
 package com.project.anesu.shiftplanner.employeeservice.entity.schedule;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import com.project.anesu.shiftplanner.employeeservice.entity.shift.ShiftEntry;
 import com.project.anesu.shiftplanner.employeeservice.entity.vacation.VacationRequest;
@@ -34,6 +35,7 @@ public class Schedule {
   private List<VacationRequest> vacations;
 
   @OneToOne
+  @JsonIgnore
   @JoinColumn(name = "employeeId_id")
   private Employee employee;
 
