@@ -16,7 +16,7 @@ public class ShiftRequestValidator {
 
     Optional<ShiftRequest> shiftRequestOptional =
         shiftRequestRepository.findByEmployeeIdAndShiftDate(
-            shiftRequest.getEmployeeId(), shiftRequest.getShiftDate());
+            shiftRequest.getEmployee().getId(), shiftRequest.getShiftDate());
 
     shiftRequestOptional.ifPresent(
         existingShift -> {
@@ -27,7 +27,7 @@ public class ShiftRequestValidator {
           if (exceedsMaximumWorkingHours) {
             throw new ShiftValidationException(
                 "New shift request violates working hours. Employee ID: "
-                    + shiftRequest.getEmployeeId()
+                    + shiftRequest.getEmployee().getId()
                     + " already has "
                     + shiftRequestOptional.get().getShiftLengthInHours()
                     + " hours for this shift scheduled/recorded. Maximum working hours should not exceed : "
