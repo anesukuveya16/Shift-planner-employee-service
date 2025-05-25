@@ -15,12 +15,12 @@ public interface ShiftRequestRepository extends JpaRepository<ShiftRequest, Long
 
   List<ShiftRequest> findByEmployeeId(Long employeeId);
 
-  @Query("SELECT s FROM ShiftRequest s WHERE s.shiftDate >= :startOfWeek AND s.shiftDate <= :endOfWeek")
-  List<ShiftRequest> findByDateRange(@Param("startOfWeek") LocalDateTime startDate,
-                                     @Param("endOfWeek") LocalDateTime endDate);
+  @Query(
+      "SELECT s FROM ShiftRequest s WHERE s.shiftDate >= :startOfWeek AND s.shiftDate <= :endOfWeek")
+  List<ShiftRequest> findByDateRange(
+      @Param("startOfWeek") LocalDateTime startDate, @Param("endOfWeek") LocalDateTime endDate);
 
   Optional<ShiftRequest> findByEmployeeIdAndShiftDate(Long employeeId, LocalDateTime shiftDate);
 
   Optional<ShiftRequest> findByIdAndStatus(Long shiftRequestId, ShiftRequestStatus status);
 }
-

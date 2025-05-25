@@ -20,8 +20,8 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
    * @param endDate the end of the date range
    * @return a list of matching schedules
    */
-
-  @Query("SELECT s FROM Schedule s WHERE s.employee.id = :employeeId AND s.startDate >= :startOfWeek AND s.endDate <= :endOfWeek")
+  @Query(
+      "SELECT s FROM Schedule s WHERE s.employee.id = :employeeId AND s.startDate >= :startOfWeek AND s.endDate <= :endOfWeek")
   Optional<List<Schedule>> findByEmployeeIdAndDateRange(
       @Param("employeeId") Long employeeId,
       @Param("startOfWeek") LocalDateTime startDate,
@@ -35,10 +35,10 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
    * @param endOfCalenderWeek the end of the date range
    * @return a matching schedule.
    */
-  @Query("SELECT s FROM Schedule s WHERE s.employee.id = :employeeId AND s.startDate >= :startOfCalendarWeek AND s.endDate <= :endOfCalendarWeek")
+  @Query(
+      "SELECT s FROM Schedule s WHERE s.employee.id = :employeeId AND s.startDate >= :startOfCalendarWeek AND s.endDate <= :endOfCalendarWeek")
   Optional<Schedule> findByEmployeeIdAndCalendarWeek(
       @Param("employeeId") Long employeeId,
       @Param("startOfCalendarWeek") LocalDateTime startOfCalenderWeek,
       @Param("endOfCalendarWeek") LocalDateTime endOfCalenderWeek);
-
 }
