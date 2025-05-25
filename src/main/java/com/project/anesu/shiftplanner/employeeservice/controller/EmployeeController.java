@@ -1,14 +1,15 @@
 package com.project.anesu.shiftplanner.employeeservice.controller;
 
+import static com.project.anesu.shiftplanner.employeeservice.controller.EmployeeServiceRestEndpoints.*;
 import static org.springframework.http.ResponseEntity.ok;
 
+import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import com.project.anesu.shiftplanner.employeeservice.entity.schedule.Schedule;
 import com.project.anesu.shiftplanner.employeeservice.entity.shift.ShiftRequest;
 import com.project.anesu.shiftplanner.employeeservice.entity.vacation.VacationRequest;
 import com.project.anesu.shiftplanner.employeeservice.model.ScheduleService;
 import com.project.anesu.shiftplanner.employeeservice.model.ShiftRequestService;
 import com.project.anesu.shiftplanner.employeeservice.model.VacationRequestService;
-import com.project.anesu.shiftplanner.employeeservice.service.exception.InvalidScheduleException;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(EmployeeServiceRestEndpoints.LANDING_PAGE)
+@RequestMapping(LANDING_PAGE)
 @RequiredArgsConstructor
 public class EmployeeController {
 
@@ -28,10 +29,11 @@ public class EmployeeController {
 
   @PostMapping(EmployeeServiceRestEndpoints.CREATE_SCHEDULE)
   public Schedule createSchedule(@PathVariable Long employeeId, @RequestBody Schedule schedule) {
-    if (!employeeId.equals(schedule.getEmployeeId())) {
-      throw new InvalidScheduleException(
-          "Given employee id is not the same as the employee id in the schedule to be created.");
-    }
+
+    Employee employee = new Employee();
+    employee.setId(employeeId);
+    schedule.setEmployee(employee);
+
     return scheduleService.createSchedule(schedule);
   }
 
@@ -41,7 +43,7 @@ public class EmployeeController {
     Schedule updated = scheduleService.updateSchedule(scheduleId, updatedSchedule);
 
     if (updated != null) {
-      return ResponseEntity.status(HttpStatus.OK).build();
+      return ResponseEntity.status(HttpStatus.OK).body("Schedule updated successfully");
     } else {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule not found");
     }
@@ -76,7 +78,7 @@ public class EmployeeController {
 
   @PutMapping(EmployeeServiceRestEndpoints.REJECT_SHIFT_REQUEST)
   public ShiftRequest rejectShiftRequest(
-      @PathVariable Long shiftRequestId, @RequestParam String rejectionReason) {
+      @PathVariable Long shiftRequestId, @RequestBody String rejectionReason) {
     return shiftRequestService.rejectShiftRequest(shiftRequestId, rejectionReason);
   }
 
