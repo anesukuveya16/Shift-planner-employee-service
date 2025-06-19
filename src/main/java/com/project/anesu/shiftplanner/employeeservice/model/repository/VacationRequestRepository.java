@@ -13,21 +13,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VacationRequestRepository extends JpaRepository<VacationRequest, Long> {
 
-  @Query("SELECT e FROM Employee e JOIN FETCH e.vacationRequests WHERE e.id = :id")
-  Employee findEmployeeWithVacationRequests(@Param("id") Long employeeId);
-
-  @Query("SELECT vr FROM VacationRequest vr WHERE vr.employee.id IN :employeeIds")
-  List<VacationRequest> findVacationRequestsByEmployeeIds(
-      @Param("employeeIds") List<Long> employeeIds);
-
   List<VacationRequest> findByEmployeeId(Long employeeId);
 
   @Query(
-      "SELECT v FROM VacationRequest v WHERE v.employee.id = :employeeId AND v.startDate >= :startOfWeek AND v.endDate <= :endOfWeek")
+      "SELECT v FROM VacationRequest v WHERE v.employee.id = :employeeId AND v.startDate >= :startDate AND v.endDate <= :endDate  ^")
   List<VacationRequest> findByEmployeeIdAndDateRange(
       @Param("employeeId") Long employeeId,
-      @Param("startOfWeek") LocalDateTime startOfWeek,
-      @Param("endOfWeek") LocalDateTime endOfWeek);
+      @Param("startDate") LocalDateTime startOfWeek,
+      @Param("endDate") LocalDateTime endOfWeek);
 
   @Query(
       "SELECT v FROM VacationRequest v WHERE v.officeLocationId = :officeLocationId "
