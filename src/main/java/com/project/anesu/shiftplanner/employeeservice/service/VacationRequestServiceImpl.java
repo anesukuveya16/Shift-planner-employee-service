@@ -21,7 +21,7 @@ public class VacationRequestServiceImpl implements VacationRequestService {
   @Override
   public VacationRequest createVacationRequest(VacationRequest vacationRequest) {
 
-    validateVacationRequest(vacationRequest);
+    vacationRequestValidator.validateVacationRequest(vacationRequest, vacationRequestRepository);
     vacationRequest.setStatus(VacationRequestStatus.PENDING);
     return vacationRequestRepository.save(vacationRequest);
   }
@@ -74,9 +74,4 @@ public class VacationRequestServiceImpl implements VacationRequestService {
                     "Vacation request not found with ID: " + vacationRequestId));
   }
 
-  private void validateVacationRequest(VacationRequest vacationRequest)
-      throws VacationRequestNotFoundException {
-
-    vacationRequestValidator.validateVacationRequest(vacationRequest, vacationRequestRepository);
-  }
 }

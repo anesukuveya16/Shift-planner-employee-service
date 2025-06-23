@@ -38,7 +38,7 @@ public class VacationRequestValidator {
     }
 
     if (!vacationRequest.getEmployee().getId().equals(employeeId)) {
-      throw new SecurityException(INVALID_VACATION_OWNER_ERROR);
+      throw new InvalidVacationRequestException(INVALID_VACATION_OWNER_ERROR);
     }
   }
 

@@ -1,6 +1,5 @@
 package com.project.anesu.shiftplanner.employeeservice.model.repository;
 
-import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import com.project.anesu.shiftplanner.employeeservice.entity.vacation.VacationRequest;
 import com.project.anesu.shiftplanner.employeeservice.entity.vacation.VacationRequestStatus;
 import java.time.LocalDateTime;
