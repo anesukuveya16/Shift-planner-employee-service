@@ -15,15 +15,6 @@ public class ScheduleValidator {
   private static final int MAX_WORKING_HOURS_PER_SHIFT = 8;
   private static final int MAX_WORKING_HOURS_PER_WEEK = 40;
 
-  public void validate(Long employeeId, Schedule schedule) {
-
-    if (!employeeId.equals(schedule.getEmployeeId())) {
-      throw new InvalidScheduleException(
-          "Given employee id is not the same as the employee id in the schedule to be created.");
-    }
-    validate(schedule);
-  }
-
   public void validate(Schedule schedule) throws InvalidScheduleException {
 
     validateDates(schedule);

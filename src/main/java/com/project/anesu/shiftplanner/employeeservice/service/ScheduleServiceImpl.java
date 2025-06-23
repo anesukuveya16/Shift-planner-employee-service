@@ -22,8 +22,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
 
-  private static final String SCHEDULE_NOT_FOUND_EXCEPTION_MESSAGE = "Schedule not found with id: ";
-
   private final ScheduleRepository scheduleRepository;
   private final ScheduleValidator scheduleValidator;
 
@@ -38,11 +36,7 @@ public class ScheduleServiceImpl implements ScheduleService {
       throws ScheduleNotFoundException {
 
     Schedule existingScheduleToUpdate =
-        getScheduleById(scheduleId)
-            .orElseThrow(
-                () ->
-                    new ScheduleNotFoundException(
-                        SCHEDULE_NOT_FOUND_EXCEPTION_MESSAGE + scheduleId));
+        getScheduleById(scheduleId).orElseThrow(() -> new ScheduleNotFoundException(scheduleId));
 
     Schedule updatedExsistingSchedule =
         updateExsistingSchedule(updatedSchedule, existingScheduleToUpdate);
@@ -61,9 +55,14 @@ public class ScheduleServiceImpl implements ScheduleService {
         getScheduleInApprovedShiftCalendarWeek(employeeId, approvedShiftRequest);
 
     Schedule schedule =
-        scheduleInApprovedShiftCalendarWeek.isPresent()
-            ? addNewShiftEntryToSchedule(approvedShiftRequest, scheduleInApprovedShiftCalendarWeek)
-            : createNewScheduleForApprovedShiftCalendarWeek(approvedShiftRequest, employeeId);
+        scheduleInApprovedShiftCalendarWeek
+            .map(
+                existingSchedule ->
+                    addNewShiftEntryToExisitingSchedule(approvedShiftRequest, existingSchedule))
+            .orElseGet(
+                () ->
+                    createNewScheduleForApprovedShiftCalendarWeek(
+                        approvedShiftRequest, employeeId));
 
     return scheduleRepository.save(schedule);
   }
@@ -85,7 +84,7 @@ public class ScheduleServiceImpl implements ScheduleService {
   public void deleteSchedule(Long scheduleId) throws ScheduleNotFoundException {
 
     if (!scheduleRepository.existsById(scheduleId)) {
-      throw new ScheduleNotFoundException(SCHEDULE_NOT_FOUND_EXCEPTION_MESSAGE + scheduleId);
+      throw new ScheduleNotFoundException(scheduleId);
     }
     scheduleRepository.deleteById(scheduleId);
   }
@@ -144,11 +143,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         .plusHours(approvedShiftRequest.getShiftLengthInHours());
   }
 
-  private Schedule addNewShiftEntryToSchedule(
-      ShiftRequest approvedShiftRequest, Optional<Schedule> schedulesInApprovedShiftCalendarWeek) {
+  private Schedule addNewShiftEntryToExisitingSchedule(
+      ShiftRequest approvedShiftRequest, Schedule schedulesInApprovedShiftCalendarWeek) {
 
-    Schedule schedule = schedulesInApprovedShiftCalendarWeek.get();
-    schedule.getShifts().add(ShiftEntry.fromApprovedShiftRequest(approvedShiftRequest));
-    return schedule;
+    schedulesInApprovedShiftCalendarWeek
+        .getShifts()
+        .add(ShiftEntry.fromApprovedShiftRequest(approvedShiftRequest));
+    return schedulesInApprovedShiftCalendarWeek;
   }
 }
