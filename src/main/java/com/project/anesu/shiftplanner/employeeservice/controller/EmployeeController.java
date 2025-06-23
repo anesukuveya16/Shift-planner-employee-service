@@ -1,7 +1,6 @@
 package com.project.anesu.shiftplanner.employeeservice.controller;
 
 import static com.project.anesu.shiftplanner.employeeservice.controller.EmployeeServiceRestEndpoints.*;
-import static org.springframework.http.ResponseEntity.ok;
 
 import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import com.project.anesu.shiftplanner.employeeservice.entity.schedule.Schedule;
@@ -42,7 +41,9 @@ public class EmployeeController {
       @PathVariable Long scheduleId, @RequestBody Schedule updatedSchedule) {
     Schedule updated = scheduleService.updateSchedule(scheduleId, updatedSchedule);
 
-    return updated != null ? ResponseEntity.status(HttpStatus.OK).build(): ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    return updated != null
+        ? ResponseEntity.status(HttpStatus.OK).build()
+        : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
   @DeleteMapping(DELETE_SCHEDULE)
