@@ -248,7 +248,7 @@ class EmployeeServiceShiftRequestTest {
   @Test
   void getShiftRequestsByGivenDateRange() {
     String shiftRequestBodyOne =
-            """
+        """
             {
               "shiftType": "MORNING_SHIFT",
               "shiftLengthInHours": 8,
@@ -259,20 +259,20 @@ class EmployeeServiceShiftRequestTest {
                 "id": %d
               }
             }
-            """.formatted(employeeId);
+            """
+            .formatted(employeeId);
 
     RestAssured.given()
-            .contentType(ContentType.JSON)
-            .body(shiftRequestBodyOne)
-            .when()
-            .post(LANDING_PAGE + CREATE_SHIFT_REQUEST)
-            .then()
-            .statusCode(200)
-            .body("status", equalTo("PENDING"));
-
+        .contentType(ContentType.JSON)
+        .body(shiftRequestBodyOne)
+        .when()
+        .post(LANDING_PAGE + CREATE_SHIFT_REQUEST)
+        .then()
+        .statusCode(200)
+        .body("status", equalTo("PENDING"));
 
     String shiftRequestBodyTwo =
-            """
+        """
             {
               "shiftType": "NIGHT_SHIFT",
               "shiftLengthInHours": 8,
@@ -283,31 +283,31 @@ class EmployeeServiceShiftRequestTest {
                 "id": %d
               }
             }
-            """.formatted(employeeId);
+            """
+            .formatted(employeeId);
 
     RestAssured.given()
-            .contentType(ContentType.JSON)
-            .body(shiftRequestBodyTwo)
-            .when()
-            .post(LANDING_PAGE + CREATE_SHIFT_REQUEST)
-            .then()
-            .statusCode(200)
-            .body("status", equalTo("PENDING"));
+        .contentType(ContentType.JSON)
+        .body(shiftRequestBodyTwo)
+        .when()
+        .post(LANDING_PAGE + CREATE_SHIFT_REQUEST)
+        .then()
+        .statusCode(200)
+        .body("status", equalTo("PENDING"));
 
     String startDate = "2025-05-01T00:00:00";
     String endDate = "2025-07-30T23:59:59";
 
     RestAssured.given()
-            .pathParam("employeeId", employeeId)
-            .queryParam("startDate", startDate)
-            .queryParam("endDate", endDate)
-            .contentType(ContentType.JSON)
-            .when()
-            .get(LANDING_PAGE + SHIFT_REQUESTS_DATE_RANGE)
-            .then()
-            .statusCode(200)
-            .body("findAll { it.shiftType == 'MORNING_SHIFT' }.size()", greaterThanOrEqualTo(1))
-            .body("findAll { it.shiftType == 'NIGHT_SHIFT' }.size()", greaterThanOrEqualTo(1));
+        .pathParam("employeeId", employeeId)
+        .queryParam("startDate", startDate)
+        .queryParam("endDate", endDate)
+        .contentType(ContentType.JSON)
+        .when()
+        .get(LANDING_PAGE + SHIFT_REQUESTS_DATE_RANGE)
+        .then()
+        .statusCode(200)
+        .body("findAll { it.shiftType == 'MORNING_SHIFT' }.size()", greaterThanOrEqualTo(1))
+        .body("findAll { it.shiftType == 'NIGHT_SHIFT' }.size()", greaterThanOrEqualTo(1));
   }
-
 }

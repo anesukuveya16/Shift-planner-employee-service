@@ -21,11 +21,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
    * @return a list of matching schedules
    */
   @Query(
-      "SELECT s FROM Schedule s WHERE s.employee.id = :employeeId AND s.startDate >= :startOfWeek AND s.endDate <= :endOfWeek")
+      "SELECT s FROM Schedule s WHERE s.employee.id = :employeeId AND s.startDate >= :startDate AND s.endDate <= :endDate")
   Optional<List<Schedule>> findByEmployeeIdAndDateRange(
       @Param("employeeId") Long employeeId,
-      @Param("startOfWeek") LocalDateTime startDate,
-      @Param("endOfWeek") LocalDateTime endDate);
+      @Param("startDate") LocalDateTime startDate,
+      @Param("endDate") LocalDateTime endDate);
 
   /**
    * Finds schedules for a specific employee within a given calendar week.

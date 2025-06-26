@@ -1,7 +1,6 @@
 package com.project.anesu.shiftplanner.employeeservice.controller;
 
 import static com.project.anesu.shiftplanner.employeeservice.controller.EmployeeServiceRestEndpoints.*;
-import static org.springframework.http.ResponseEntity.ok;
 
 import com.project.anesu.shiftplanner.employeeservice.entity.employee.Employee;
 import com.project.anesu.shiftplanner.employeeservice.entity.schedule.Schedule;
@@ -19,15 +18,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(LANDING_PAGE)
 @RequiredArgsConstructor
+@RequestMapping(LANDING_PAGE)
 public class EmployeeController {
 
   private final ScheduleService scheduleService;
   private final ShiftRequestService shiftRequestService;
   private final VacationRequestService vacationRequestService;
 
-  @PostMapping(EmployeeServiceRestEndpoints.CREATE_SCHEDULE)
+  @PostMapping(CREATE_SCHEDULE)
   public Schedule createSchedule(@PathVariable Long employeeId, @RequestBody Schedule schedule) {
 
     Employee employee = new Employee();
@@ -37,26 +36,24 @@ public class EmployeeController {
     return scheduleService.createSchedule(schedule);
   }
 
-  @PutMapping(EmployeeServiceRestEndpoints.UPDATE_SCHEDULE)
-  public ResponseEntity<String> updateSchedule(
+  @PutMapping(UPDATE_SCHEDULE)
+  public ResponseEntity<Void> updateSchedule(
       @PathVariable Long scheduleId, @RequestBody Schedule updatedSchedule) {
     Schedule updated = scheduleService.updateSchedule(scheduleId, updatedSchedule);
 
-    if (updated != null) {
-      return ResponseEntity.status(HttpStatus.OK).body("Schedule updated successfully");
-    } else {
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Schedule not found");
-    }
+    return updated != null
+        ? ResponseEntity.status(HttpStatus.OK).build()
+        : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 
-  @DeleteMapping(EmployeeServiceRestEndpoints.DELETE_SCHEDULE)
-  public ResponseEntity<String> deleteSchedule(@PathVariable Long scheduleId) {
+  @DeleteMapping(DELETE_SCHEDULE)
+  public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
     scheduleService.deleteSchedule(scheduleId);
-    return ok("Schedule deleted successfully.");
+    return ResponseEntity.noContent().build();
   }
 
-  @GetMapping(EmployeeServiceRestEndpoints.GET_SCHEDULES_BY_DATE_RANGE)
-  public List<Schedule> getEmployeeSchedules(
+  @GetMapping(GET_SCHEDULES_BY_DATE_RANGE)
+  public List<Schedule> getSchedulesByEmployeeAndDateRange(
       @PathVariable Long employeeId,
       @RequestParam("startDate") LocalDateTime startDate,
       @RequestParam("endDate") LocalDateTime endDate) {
@@ -65,29 +62,29 @@ public class EmployeeController {
         .orElse(Collections.emptyList());
   }
 
-  @PostMapping(EmployeeServiceRestEndpoints.CREATE_SHIFT_REQUEST)
+  @PostMapping(CREATE_SHIFT_REQUEST)
   public ShiftRequest createShiftRequest(@RequestBody ShiftRequest shiftRequest) {
     return shiftRequestService.createShiftRequest(shiftRequest);
   }
 
-  @PutMapping(EmployeeServiceRestEndpoints.APPROVE_SHIFT_REQUEST)
+  @PutMapping(APPROVE_SHIFT_REQUEST)
   public ShiftRequest approveShiftRequest(
       @PathVariable Long employeeId, @PathVariable Long shiftRequestId) {
     return shiftRequestService.approveShiftRequest(employeeId, shiftRequestId);
   }
 
-  @PutMapping(EmployeeServiceRestEndpoints.REJECT_SHIFT_REQUEST)
+  @PutMapping(REJECT_SHIFT_REQUEST)
   public ShiftRequest rejectShiftRequest(
       @PathVariable Long shiftRequestId, @RequestBody String rejectionReason) {
     return shiftRequestService.rejectShiftRequest(shiftRequestId, rejectionReason);
   }
 
-  @GetMapping(EmployeeServiceRestEndpoints.GET_SHIFT_REQUESTS)
+  @GetMapping(GET_SHIFT_REQUESTS)
   public List<ShiftRequest> getEmployeeShiftRequests(@PathVariable Long employeeId) {
     return shiftRequestService.getShiftRequestsByEmployee(employeeId);
   }
 
-  @GetMapping(EmployeeServiceRestEndpoints.SHIFT_REQUESTS_DATE_RANGE)
+  @GetMapping(SHIFT_REQUESTS_DATE_RANGE)
   public List<ShiftRequest> getShiftRequestsByDateRange(
       @PathVariable Long employeeId,
       @RequestParam("startDate") LocalDateTime startDate,
@@ -95,23 +92,23 @@ public class EmployeeController {
     return shiftRequestService.getShiftRequestsByDateRange(employeeId, startDate, endDate);
   }
 
-  @PostMapping(EmployeeServiceRestEndpoints.CREATE_VACATION_REQUEST)
+  @PostMapping(CREATE_VACATION_REQUEST)
   public VacationRequest createVacationRequest(@RequestBody VacationRequest vacationRequest) {
     return vacationRequestService.createVacationRequest(vacationRequest);
   }
 
-  @PutMapping(EmployeeServiceRestEndpoints.WITHDRAW_VACATION_REQUEST)
+  @PutMapping(WITHDRAW_VACATION_REQUEST)
   public VacationRequest withdrawVacationRequest(
       @PathVariable Long employeeId, @PathVariable Long vacationRequestId) {
     return vacationRequestService.withdrawVacationRequest(vacationRequestId, employeeId);
   }
 
-  @GetMapping(EmployeeServiceRestEndpoints.GET_VACATION_REQUESTS)
+  @GetMapping(GET_VACATION_REQUESTS)
   public List<VacationRequest> getEmployeeVacationRequests(@PathVariable Long employeeId) {
     return vacationRequestService.getVacationRequestsByEmployeeId(employeeId);
   }
 
-  @GetMapping(EmployeeServiceRestEndpoints.VACATION_REQUESTS_DATE_RANGE)
+  @GetMapping(VACATION_REQUESTS_DATE_RANGE)
   public List<VacationRequest> getVacationRequestsByDateRange(
       @PathVariable Long employeeId,
       @RequestParam("startDate") LocalDateTime startDate,

@@ -20,11 +20,8 @@ public class ShiftRequestValidator {
 
     shiftRequestOptional.ifPresent(
         existingShift -> {
-          boolean exceedsMaximumWorkingHours =
-              existingShift.getShiftLengthInHours() + shiftRequest.getShiftLengthInHours()
-                  >= MAX_LEGAL_WORKING_HOURS;
 
-          if (exceedsMaximumWorkingHours) {
+            if (isMaximumWorkingHoursExceeded(shiftRequest, existingShift)) {
             throw new ShiftValidationException(
                 "New shift request violates working hours. Employee ID: "
                     + shiftRequest.getEmployee().getId()
@@ -36,4 +33,9 @@ public class ShiftRequestValidator {
           }
         });
   }
+
+    private static boolean isMaximumWorkingHoursExceeded(ShiftRequest shiftRequest, ShiftRequest existingShift) {
+        return existingShift.getShiftLengthInHours() + shiftRequest.getShiftLengthInHours()
+                >= MAX_LEGAL_WORKING_HOURS;
+    }
 }

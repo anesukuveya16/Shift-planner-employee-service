@@ -184,9 +184,9 @@ class EmployeeServiceVacationRequestTest {
   }
 
   @Test
-  void getVacationRequestsByGivenDateRange () {
+  void getVacationRequestsByGivenDateRange() {
     String vacationRequestBodyOne =
-            """
+        """
                 {
                   "officeLocationId": 1,
                   "startDate": "2025-08-01T08:00:00",
@@ -198,21 +198,20 @@ class EmployeeServiceVacationRequestTest {
                       }
                 }
                 """
-                    .formatted(employeeId);
+            .formatted(employeeId);
 
     RestAssured.given()
-            .contentType(ContentType.JSON)
-            .body(vacationRequestBodyOne)
-            .when()
-            .post(LANDING_PAGE + CREATE_VACATION_REQUEST)
-            .then()
-            .statusCode(200)
-            .body("status", equalTo("PENDING"))
-            .body("officeLocationId", equalTo(1));
-
+        .contentType(ContentType.JSON)
+        .body(vacationRequestBodyOne)
+        .when()
+        .post(LANDING_PAGE + CREATE_VACATION_REQUEST)
+        .then()
+        .statusCode(200)
+        .body("status", equalTo("PENDING"))
+        .body("officeLocationId", equalTo(1));
 
     String vacationRequestBodyTwo =
-            """
+        """
                   {
                     "officeLocationId": 1,
                     "startDate": "2025-12-28T08:00:00",
@@ -224,34 +223,31 @@ class EmployeeServiceVacationRequestTest {
                       }
                 }
                 """
-                    .formatted(employeeId);
+            .formatted(employeeId);
 
     RestAssured.given()
-            .contentType(ContentType.JSON)
-            .body(vacationRequestBodyTwo)
-            .when()
-            .post(LANDING_PAGE + CREATE_VACATION_REQUEST)
-            .then()
-            .statusCode(200)
-            .body("status", equalTo("PENDING"))
-            .body("officeLocationId", equalTo(1));
+        .contentType(ContentType.JSON)
+        .body(vacationRequestBodyTwo)
+        .when()
+        .post(LANDING_PAGE + CREATE_VACATION_REQUEST)
+        .then()
+        .statusCode(200)
+        .body("status", equalTo("PENDING"))
+        .body("officeLocationId", equalTo(1));
 
     String startDate = "2025-07-01T08:00:00";
     String endDate = "2026-02-08T08:00:00";
 
     RestAssured.given()
-            .pathParam("employeeId", employeeId)
-            .queryParam("startDate", startDate)
-            .queryParam("endDate", endDate)
-            .contentType(ContentType.JSON)
-            .when()
-            .get(LANDING_PAGE + VACATION_REQUESTS_DATE_RANGE)
-            .then()
-            .statusCode(200)
-            .body("findAll { it.status == 'PENDING' }.size()", greaterThanOrEqualTo(1))
-            .body("findAll { it.status == 'PENDING' }.size()", greaterThanOrEqualTo(1));
-
+        .pathParam("employeeId", employeeId)
+        .queryParam("startDate", startDate)
+        .queryParam("endDate", endDate)
+        .contentType(ContentType.JSON)
+        .when()
+        .get(LANDING_PAGE + VACATION_REQUESTS_DATE_RANGE)
+        .then()
+        .statusCode(200)
+        .body("findAll { it.status == 'PENDING' }.size()", greaterThanOrEqualTo(1))
+        .body("findAll { it.status == 'PENDING' }.size()", greaterThanOrEqualTo(1));
   }
-
 }
-

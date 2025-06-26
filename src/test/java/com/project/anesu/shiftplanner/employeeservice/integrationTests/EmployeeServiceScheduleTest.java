@@ -154,9 +154,9 @@ class EmployeeServiceScheduleTest {
   }
 
   @Test
-  void shouldRetrieveScheduleByGivenDateRange () {
+  void shouldRetrieveScheduleByGivenDateRange() {
     String scheduleRequestBody =
-            """
+        """
                 {
                     "startDate": "2025-01-15T08:00:00",
                     "endDate": "2025-05-31T16:00:00",
@@ -167,31 +167,29 @@ class EmployeeServiceScheduleTest {
             """;
 
     RestAssured.given()
-            .pathParam("employeeId", employeeId)
-            .contentType(ContentType.JSON)
-            .body(scheduleRequestBody)
-            .when()
-            .post(LANDING_PAGE + CREATE_SCHEDULE)
-            .then()
-            .log()
-            .ifValidationFails()
-            .statusCode(200)
-            .body("shifts.size()", equalTo(0))
-            .body("vacations.size()", equalTo(0));
-
+        .pathParam("employeeId", employeeId)
+        .contentType(ContentType.JSON)
+        .body(scheduleRequestBody)
+        .when()
+        .post(LANDING_PAGE + CREATE_SCHEDULE)
+        .then()
+        .log()
+        .ifValidationFails()
+        .statusCode(200)
+        .body("shifts.size()", equalTo(0))
+        .body("vacations.size()", equalTo(0));
 
     String startDate = "2025-01-01T00:00:00";
     String endDate = "2025-08-30T23:59:59";
 
     RestAssured.given()
-            .pathParam("employeeId", employeeId)
-            .queryParam("startDate", startDate)
-            .queryParam("endDate", endDate)
-            .contentType(ContentType.JSON)
-            .when()
-            .get(LANDING_PAGE + GET_SCHEDULES_BY_DATE_RANGE)
-            .then()
-            .statusCode(200);
-
+        .pathParam("employeeId", employeeId)
+        .queryParam("startDate", startDate)
+        .queryParam("endDate", endDate)
+        .contentType(ContentType.JSON)
+        .when()
+        .get(LANDING_PAGE + GET_SCHEDULES_BY_DATE_RANGE)
+        .then()
+        .statusCode(200);
   }
 }

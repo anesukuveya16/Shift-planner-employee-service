@@ -32,6 +32,7 @@ public class ShiftRequestServiceImpl implements ShiftRequestService {
    * <li>1. It needs to be saved in the ShiftRequest DB.
    * <li>2. Update the schedule to include the approved ShiftRequest, which is now a ShiftEntry.
    */
+  //TODO: also validate shift request
   @Override
   public ShiftRequest approveShiftRequest(Long employeeId, Long shiftRequestId)
       throws ShiftRequestNotFoundException {
