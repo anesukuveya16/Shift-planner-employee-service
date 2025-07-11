@@ -2,16 +2,16 @@
 
 This microservice is part of an **manager scheduling system** in a healthcare facility, focusing on employee operations in the system.
 
-The **Employee Microservice** focuses on :
+The **Employee Microservice** is responsible for :
 
-- create and send shift and vacation requests to manager 
-- Approve or reject shift requests sent from by the manager
-- Update schedule after approval from manager
-- Delete schedule
+- creating and sending shift and vacation requests to manager 
+- Approving or rejecting shift requests sent by the manager
+- Updating schedules after approval from manager
+- Deleting schedules
 
 It operates **independently** of the Manager Microservice but communicates with it to:
 
-- To recieve feedbcak or updates from the Manager Microserivice
+- To recieve feedback or updates from the Manager Microserivice
 - Maintain consistency across the services
 
 ## Tech Stack
@@ -27,10 +27,10 @@ It operates **independently** of the Manager Microservice but communicates with 
 
 ##  Key Features
 
+- create and send vacation requests to Manager Service
 - View schedule with specific date range  
 - Delete existing schedules 
 - Approve or reject shift requests from Manager Service
-- create and send vacation requests to Manager Service
 - Update employee schedules based on manager actions  
 - Get a list of an employee’s shift requests in a specific date range  
 - Retrieve planned shift and vacation in specific date range and location  
@@ -68,33 +68,33 @@ Only "pending" shift requests can be approved or rejected
 ##  REST Endpints
 
 Schedule Request
-| Method | Endpoint                                      | Description             |
+| Method | Endpoint                                       | Description            |
 | --------| -------------------------------------------   | ----------------------- |
-| `POST`  | `/schedules`                                  | Create schedule         |
-| `PUT`   | `/schedules/{scheduleId}`                    | Update schedule         |
-| `GET`   | `/schedules/{scheduleId}/range`              | Get schedules in range  |
-| `DELETE`| `/schedules/{scheduleId}`                     | Delete schedule         |
+| `POST`  | `/{employeeId}/schedule`                      | Create schedule         |
+| `PUT`   | `/schedule/{scheduleId}`                      | Update schedule         |
+| `GET`   | `/{employeeId}/schedule`                      | Get schedules in range  
+| `DELETE`| `/schedule/{scheduleId}`                      | Delete schedule         |
 
 
 
 Shift Request
 | Method | Endpoint                                                    | Description             |
 | ------ | ----------------------------------------------------------- | ----------------------- |
-| `PUT`  | `/employees/{employeeId}/shifts`                            | Create shift request    |
-| `PUT`  | `/employees/{employeeId}/shifts/{shiftRequestId}/approve`   | Approve shift request   |
-| `GET`  | `/shifts/{shiftRequestId}/decline`                          | Reject shift request    |
-| `GET`  | `/employees/{employeeId}/shifts`                            | Get shift request  |
-| `GET`  | `/employees/{employeeId}/shifts/range`                      | Get shift requests in range  |
+| `POST`  | `/shift-request`                                           | Create shift request    |
+| `PUT`  | `/{employeeId}/shift-request/{shiftRequestId}/approve`      | Approve shift request   |
+| `GET`  | `/{shiftRequestId}/reject`                                  | Reject shift request    |
+| `GET`  | `/{employeeId}/shift-requests`                              | Get shift request  |
+| `GET`  | `/{employeeId}/shift-requests/date-range`                   | Get shift requests in range  |
 
 
 Vacation Request
-| Method | Endpoint                                                    | Description              |
-| ------ | ---------------------------------------------------------   | -----------------------  |
-| `POST`  | `/vacations/{vacationRequestId}/approve`                    | Create vacation request |
-| `GET`  | `/vacations/{vacationRequestId}/decline`                    | Withdraw vacation request  |
-| `GET`  | `/employees/{employeeId}/vacations`                         | Get vacation requests |
-| `GET`  | `/employees/{employeeId}/vacations/range`                   | Get vacation requests in range  |
-| `GET`  | `/offices/{officeLocationId}/vacations`                     | Get team calendar         |
+| Method | Endpoint                                                      | Description              |
+| ------ | ---------------------------------------------------------     | -----------------------  |
+| `POST`  | `/vacation-request`                                          | Create vacation request  |
+| `PUT`  | `/{employeeId}/vacation-request/{vacationRequestId}/withdraw` | Withdraw vacation request  |
+| `GET`  | `/employees/{employeeId}/vacations`                           | Get vacation requests    |
+| `GET`  | `/{employeeId}/vacation-requests`                             | Get vacation requests    |
+| `GET`  | `/{employeeId}/vacation-requests/date-range`                  | Get vacation requests within specific date range  |
 
 ## ✨ How to run locally:
 ```bash
