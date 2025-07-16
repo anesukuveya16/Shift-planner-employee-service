@@ -1,6 +1,6 @@
 # Shift Planner: Employee Service
 
-This microservice is part of an **manager scheduling system** in a healthcare facility, focusing on employee operations in the system.
+This microservice is part of an **manager scheduling system** in a healthcare facility, focusing on employee operations for a shift planner system.
 
 The **Employee Microservice** is responsible for :
 
@@ -34,7 +34,7 @@ It operates **independently** of the Manager Microservice but communicates with 
 - Update employee schedules based on manager actions  
 - Get a list of an employee’s shift requests in a specific date range  
 - Retrieve planned shift and vacation in specific date range and location  
-- Validation layer to enforce business rules (e.g., no overlapping shifts)  
+- Validation layer to enforce business rules (e.g., no overlapping shifts, should not exceed legal maximum working hours)  
 
 ##  Unit tests cover:
 
@@ -44,13 +44,15 @@ Vacation request validation
 
 Schedule conflict detection
 
-Successful and failing approval flows
+Successful and failing approval flows of business logic
 
 Successful and failing of creating shifts or schedules
+
 
 ##  Integration tests cover:
 
 REST Endpoints functionality
+
 
 ##  Validation rules
 
@@ -68,16 +70,17 @@ Only "pending" shift requests can be approved or rejected
 ##  REST Endpints
 
 Schedule Request
-| Method | Endpoint                                       | Description            |
-| --------| -------------------------------------------   | ----------------------- |
-| `POST`  | `/{employeeId}/schedule`                      | Create schedule         |
-| `PUT`   | `/schedule/{scheduleId}`                      | Update schedule         |
-| `GET`   | `/{employeeId}/schedule`                      | Get schedules in range  
-| `DELETE`| `/schedule/{scheduleId}`                      | Delete schedule         |
 
+| Method | Endpoint                                     | Description            |
+| --------| ------------------------------------------- | ----------------------- |
+| `POST`  | `/{employeeId}/schedule`                    | Create schedule         |
+| `PUT`   | `/schedule/{scheduleId}`                    | Update schedule         |
+| `GET`   | `/{employeeId}/schedule`                    | Get schedules in range  
+| `DELETE`| `/schedule/{scheduleId}`                    | Delete schedule         |
 
 
 Shift Request
+
 | Method | Endpoint                                                    | Description             |
 | ------ | ----------------------------------------------------------- | ----------------------- |
 | `POST`  | `/shift-request`                                           | Create shift request    |
@@ -88,6 +91,7 @@ Shift Request
 
 
 Vacation Request
+
 | Method | Endpoint                                                      | Description              |
 | ------ | ---------------------------------------------------------     | -----------------------  |
 | `POST`  | `/vacation-request`                                          | Create vacation request  |
@@ -96,11 +100,11 @@ Vacation Request
 | `GET`  | `/{employeeId}/vacation-requests`                             | Get vacation requests    |
 | `GET`  | `/{employeeId}/vacation-requests/date-range`                  | Get vacation requests within specific date range  |
 
-## ✨ How to run locally:
+## How to run locally:
 ```bash
 Clone project:
 
-git clone https://github.com/yourusername/manager-microservice.git
+git clone https:https://github.com/anesukuveya16/Shift-planner-employee-service
 cd manager-microservice bash
 
 Build project:
