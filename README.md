@@ -109,9 +109,9 @@ cd manager-microservice bash
 
 Build project:
 
-./mvnw clean install 
+./mvn clean install 
 
 Run the application:
 
-./mvnw spring-boot:run
+./mvn spring-boot:run
 
